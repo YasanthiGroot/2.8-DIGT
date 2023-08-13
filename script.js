@@ -11,7 +11,7 @@ function loadReferringPageLinks() {
         const referringPageItem = document.createElement("li");
         referringPageItem.innerHTML = `
             <a href="${referringPage.url}">${referringPage.title}</a>
-            <span class="delete-link" data-index="${index}">&#128465;</span>
+            <span class="delete-link" data-index="${index}">&times;</span>
         `;
         pageLinks.appendChild(referringPageItem);
     });
@@ -47,4 +47,3 @@ if (referringPageTitle) {
 
 // Load the referring page links
 loadReferringPageLinks();
-
