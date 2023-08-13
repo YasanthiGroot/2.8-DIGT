@@ -7,10 +7,25 @@ const pageLinks = document.getElementById("pageLinks");
 function loadReferringPageLinks() {
     const referringPages = JSON.parse(localStorage.getItem("referringPages")) || [];
 
-    referringPages.forEach(referringPage => {
-        const referringPageLink = document.createElement("li");
-        referringPageLink.innerHTML = `<a href="${referringPage.url}">${referringPage.title}</a>`;
-        pageLinks.appendChild(referringPageLink);
+    referringPages.forEach((referringPage, index) => {
+        const referringPageItem = document.createElement("li");
+        referringPageItem.innerHTML = `
+            <a href="${referringPage.url}">${referringPage.title}</a>
+            <span class="delete-link" data-index="${index}">&#128465;</span>
+        `;
+        pageLinks.appendChild(referringPageItem);
+    });
+
+    // Add click event listeners to delete links
+    const deleteLinks = document.querySelectorAll(".delete-link");
+    deleteLinks.forEach(deleteLink => {
+        deleteLink.addEventListener("click", function() {
+            const index = this.getAttribute("data-index");
+            referringPages.splice(index, 1);
+            localStorage.setItem("referringPages", JSON.stringify(referringPages));
+            pageLinks.innerHTML = "";
+            loadReferringPageLinks(); // Reload the links after deletion
+        });
     });
 }
 
@@ -32,3 +47,4 @@ if (referringPageTitle) {
 
 // Load the referring page links
 loadReferringPageLinks();
+
